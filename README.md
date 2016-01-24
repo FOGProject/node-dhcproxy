@@ -1,20 +1,22 @@
-1. Install node.js on Linux or Windows
+# DHCP Proxy for FOG Project
 
-2. checkout https://github.com/FOGProject/node-dhcproxy.git
+FOG users mostly rely on dnsmasq to provide PXE boot information to the clients if they cannot change DHCP settings in their network environment. Unfortunately dnsmasq is not capable to serve BIOS as well as (U)EFI machines yet. Therefore you can try using this node-dhcproxy to suit your needs.
 
-3. Change dhcproxy.js to suit your environment, e.g.:
-	subnet: '192.168.1.0/24',
-	// your server running this dhcproxy
-	host: '192.168.1.254',
-	// your TFTP server
-	tftpserver: '192.168.1.200',
+## Usage
+* Install node.js on Linux or Windows
+* Checkout https://github.com/FOGProject/node-dhcproxy.git
+* Change dhcproxy.js to suit your environment, e.g.:
 
-4. Install dependencies using 'npm install'
+```js
+    subnet: '192.168.1.0/24',
+    // your server running this dhcproxy
+    host: '192.168.1.254',
+    // your TFTP server
+    tftpserver: '192.168.1.200',
+```
 
-5. Start 'node dhcproxy.js'
+* Install dependencies using 'npm install'
+* Start 'node dhcproxy.js'
 
-	
-dhcproxy is based on node-dhcpd (https://github.com/glaszig/node-dhcpd/)
-by by glaszig <glaszig@gmail.com>
-Formaly under the MIT licence but will be merged into the fogproject
-(https://fogproject.org/) soon.
+## Reference
+node-dhcproxy is based on [node-dhcpd](https://github.com/glaszig/node-dhcpd/)
