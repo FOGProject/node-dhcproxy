@@ -1,4 +1,4 @@
-# DHCP Proxy for FOG Project
+# Penguins cuckoo
 
 FOG users mostly rely on dnsmasq to provide PXE boot information to the clients if they cannot change DHCP settings in their network environment. Unfortunately dnsmasq is not capable to serve BIOS as well as (U)EFI machines yet. Therefore you can try using this node-dhcproxy to suit your needs.
 
