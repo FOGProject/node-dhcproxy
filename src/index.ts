@@ -9,8 +9,6 @@ import network from './classes/network'
 import http, { IncomingMessage, ServerResponse } from 'http'
 import nodeStatic from 'node-static'
 
-import fs from 'fs'
-
 /**
  * Configurazione
  */
@@ -32,9 +30,9 @@ let options = {
 	tftpserver: me,
 
 	// TFTP boot filenames
-	bios_filename: 'lpxelinux.0',
-	efi32_filename: 'ipxe32.efi',
-	efi64_filename: 'ipxe.efi'
+	bios_filename: 'lpxelinux.0'
+	// efi32_filename: 'ipxe32.efi',
+	// efi64_filename: 'ipxe.efi'
 
 }
 let server = new dhcpd(options)
@@ -60,21 +58,22 @@ let tftpOptions = {
 	"host": me,
 	"port": 69,
 	"root": '/home/eggs/pxe',
-	"denyPUT": false
+	"denyPUT": true
 }
 let tftpServer = tftp.createServer(tftpOptions)
 
 tftpServer.on("error", function (error :any){
 	//Errors from the main socket 
 	//The current transfers are not aborted 
-	console.error (error)
+
+	//console.error (error)
 })
  
 tftpServer.on("request", function (req: any, res: any){
 	req.on ("error", function (error :any){
 		//Error from the request 
 		//The connection is already closed 
-		console.error ("[" + req.stats.remoteAddress + ":" + req.stats.remotePort +	"] (" + req.file + ") " + error.message);
+		// console.error ("[" + req.stats.remoteAddress + ":" + req.stats.remotePort +	"] (" + req.file + ") " + error.message);
 	})
 })
 
