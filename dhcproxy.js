@@ -1,13 +1,20 @@
-var dhcpd = require('./lib/dhcpd');
+const dhcpd = require('./lib/dhcpd')
 
-var server = new dhcpd({
-	subnet: '141.62.66.0/24',
+options = {
+	subnet: '192.168.1.0/24',
+
 	// your server running this dhcproxy
-	host: '141.62.66.112',
+	host: '192.168.1.17',
+
 	// your TFTP server
-	tftpserver: '141.62.66.235',
+	tftpserver: '192.168.1.17',
+
 	// TFTP boot filenames
-	bios_filename: 'undionly.kpxe',
+	bios_filename: 'lpxelinux.0',
 	efi32_filename: 'ipxe32.efi',
 	efi64_filename: 'ipxe.efi'
-});
+
+}
+
+server = new dhcpd(options)
+

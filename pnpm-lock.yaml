@@ -1,0 +1,14 @@
+lockfileVersion: 5.4
+
+specifiers:
+  netmask: '*'
+
+dependencies:
+  netmask: 2.0.2
+
+packages:
+
+  /netmask/2.0.2:
+    resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
+    engines: {node: '>= 0.4.0'}
+    dev: false
