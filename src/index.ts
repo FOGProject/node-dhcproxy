@@ -1,4 +1,7 @@
 const svr = require('./dhcpd/dhcpd')
+import nodeStatic from 'node-static'
+import http, { IncomingMessage, ServerResponse } from 'http'
+
 
 let options = {
 	subnet: '192.168.1.0/24',
@@ -17,4 +20,12 @@ let options = {
 }
 
 let server = new svr(options)
+
+const port = 80
+const httpRoot = '/home/eggs/pxe/'
+
+var file = new (nodeStatic.Server)(httpRoot)
+http.createServer(function (req: IncomingMessage, res: ServerResponse) {
+	file.serve(req, res)
+}).listen(port)
 
