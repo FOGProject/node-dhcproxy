@@ -9,6 +9,7 @@ import network from './classes/network'
 import http, { IncomingMessage, ServerResponse } from 'http'
 import nodeStatic from 'node-static'
 
+import fs from 'fs'
 
 /**
  * Configurazione
@@ -62,9 +63,19 @@ let tftpOptions = {
 	"denyPUT": false
 }
 let tftpServer = tftp.createServer(tftpOptions)
-tftpServer.on("request", function (req: any) {
-	console.log('================================================')
-	console.log(req)
-	console.log('================================================')
+
+tftpServer.on("error", function (error :any){
+	//Errors from the main socket 
+	//The current transfers are not aborted 
+	console.error (error)
 })
+ 
+tftpServer.on("request", function (req: any, res: any){
+	req.on ("error", function (error :any){
+		//Error from the request 
+		//The connection is already closed 
+		console.error ("[" + req.stats.remoteAddress + ":" + req.stats.remotePort +	"] (" + req.file + ") " + error.message);
+	})
+})
+
 tftpServer.listen()
