@@ -19,4 +19,6 @@ FOG users mostly rely on dnsmasq to provide PXE boot information to the clients 
 * Start 'node dhcproxy.js'
 
 ## Reference
-node-dhcproxy is based on [node-dhcpd](https://github.com/glaszig/node-dhcpd/)
+penguins-cuckoo started on 29 september 2022 from:
+* https://github.com/FOGProject/node-dhcproxy (the only working at that time)
+* 

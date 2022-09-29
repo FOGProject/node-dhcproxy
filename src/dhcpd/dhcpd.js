@@ -5,25 +5,31 @@ var ee = require('events').EventEmitter;
 var util = require('util');
 
 const
-  BOOTREQUEST       = 1,
-  DHCP_MESSAGE_TYPE = 0x35,
-  DHCP_SERVER_ID    = 0x36,
-  DHCP_DISCOVER     = 1,
-  DHCP_INFORM       = 8,
-  DHCP_MINTYPE      = DHCP_DISCOVER,
-  DHCP_MAXTYPE      = DHCP_INFORM,
-  DHCP_REQUESTED_IP = 0x32,
-  DHCP_HOST_NAME    = 0x0c;
+	BOOTREQUEST = 1,
+	DHCP_MESSAGE_TYPE = 0x35,
+	DHCP_SERVER_ID = 0x36,
+	DHCP_DISCOVER = 1,
+	DHCP_INFORM = 8,
+	DHCP_MINTYPE = DHCP_DISCOVER,
+	DHCP_MAXTYPE = DHCP_INFORM,
+	DHCP_REQUESTED_IP = 0x32,
+	DHCP_HOST_NAME = 0x0c;
 
-function dhcpd (opts) {
-	var self = this;
+
+/**
+ * 
+ * @param opts 
+ * @returns 
+ */
+function dhcpd(opts) {
+	let self = this
 	if (!(self instanceof dhcpd)) {
 		return new dhcpd(opts);
 	}
 	ee.call(self);
 	if (opts.subnet) {
 		var block = new netmask(opts.subnet);
-		if(block){
+		if (block) {
 			self.network = block.base;
 			self.netmask = block.mask;
 			self.broadcast = block.broadcast;
@@ -34,7 +40,7 @@ function dhcpd (opts) {
 			self.efi64_filename = opts.efi64_filename;
 		}
 		else {
-			throw new Error("Unable to read subnet details from '"+opts.subnet+"'");
+			throw new Error("Unable to read subnet details from '" + opts.subnet + "'");
 		}
 	}
 
@@ -60,28 +66,29 @@ function dhcpd (opts) {
 
 	return self;
 }
+
 util.inherits(dhcpd, ee);
 
 
 function _get_option(pkt, opt) {
-  return (opt in pkt.options) ? pkt.options[opt] : undefined;
+	return (opt in pkt.options) ? pkt.options[opt] : undefined;
 }
 
-dhcpd.prototype.pre_init = function pre_init (pkt) {
+dhcpd.prototype.pre_init = function pre_init(pkt) {
 	var self = this;
 	// Ignore malformed packets
-	if(pkt.hlen != 6) return;
+	if (pkt.hlen != 6) return;
 	// Ignore if not a BOOTREQUEST
-	if(pkt.op != BOOTREQUEST) return;
+	if (pkt.op != BOOTREQUEST) return;
 	// Ignore if unknown message type
 	var state = _get_option(pkt, DHCP_MESSAGE_TYPE);
-	if(state == undefined || state['0'] < DHCP_MINTYPE || state['0'] > DHCP_MAXTYPE) return;
+	if (state == undefined || state['0'] < DHCP_MINTYPE || state['0'] > DHCP_MAXTYPE) return;
 	// Ignore if DHCP message is not for us
 	var server_id_opt = _get_option(pkt, DHCP_SERVER_ID);
-	if (server_id_opt!== undefined && server_id_opt != self.host) return;
+	if (server_id_opt !== undefined && server_id_opt != self.host) return;
 };
 
-dhcpd.prototype.discover = function discover (pkt) {
+dhcpd.prototype.discover = function discover(pkt) {
 	var self = this;
 	console.log("Received DHCP DISCOVER");
 	if (pkt.options['60'] !== undefined && pkt.options['60'].indexOf('PXEClient') === 0) {
@@ -107,7 +114,7 @@ dhcpd.prototype.discover = function discover (pkt) {
 
 };
 
-dhcpd.prototype.request = function request (pkt) {
+dhcpd.prototype.request = function request(pkt) {
 	var self = this;
 	console.log('Ignoring received REQUEST from ' + pkt.chaddr + ' as we are only a proxy');
 	return;
@@ -120,7 +127,7 @@ dhcpd.prototype.request = function request (pkt) {
 	return self.s.ack(pkt, offer);
 };
 
-dhcpd.prototype.inform = function inform (pkt) {
+dhcpd.prototype.inform = function inform(pkt) {
 	var self = this;
 	if (pkt.options['60'] !== undefined && pkt.options['60'].indexOf('AAPLBSDPC/i386') === 0) {
 		var offer = {};

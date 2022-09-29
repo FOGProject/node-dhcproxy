@@ -1,6 +1,6 @@
-const dhcpd = require('./lib/dhcpd')
+const svr = require('./dhcpd/dhcpd')
 
-options = {
+let options = {
 	subnet: '192.168.1.0/24',
 
 	// your server running this dhcproxy
@@ -16,5 +16,5 @@ options = {
 
 }
 
-server = new dhcpd(options)
+let server = new svr(options)
 
