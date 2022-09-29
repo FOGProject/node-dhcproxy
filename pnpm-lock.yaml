@@ -6,6 +6,7 @@ specifiers:
   '@types/node-static': ^0.7.7
   netmask: '*'
   node-static: ^0.7.11
+  tftp: ^0.1.2
   ts-node: ^10.9.1
   tslib: ^2.4.0
   typescript: ^4.8.4
@@ -13,6 +14,7 @@ specifiers:
 dependencies:
   netmask: 2.0.2
   node-static: 0.7.11
+  tftp: 0.1.2
   ts-node: 10.9.1_gbhfbbeqrol7fxixnzbkbuanxe
   tslib: 2.4.0
   typescript: 4.8.4
@@ -96,6 +98,11 @@ packages:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
     dev: false
 
+  /argp/1.0.4:
+    resolution: {integrity: sha512-dBwgZOneFCvOmuPsde14fGvdgv8eEGlFPSbHlcPb+6i0491pbnbnlp9SVxF745hlK9akq9MGtNFLO0gl6HFxLA==}
+    engines: {node: '>=0.10'}
+    dev: false
+
   /colors/1.4.0:
     resolution: {integrity: sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==}
     engines: {node: '>=0.1.90'}
@@ -144,6 +151,27 @@ packages:
     dependencies:
       minimist: 0.0.10
       wordwrap: 0.0.3
+    dev: false
+
+  /progress-bar-formatter/2.0.1:
+    resolution: {integrity: sha512-sQ5mPzh8FdliwxVqdZihcX8O6JJHZjg2ZS2L2DR89dp+Jc+lnxHduJRuYIygAj+It30w29Ke7D0nqPE455LfQQ==}
+    engines: {node: '>=0.10'}
+    dev: false
+
+  /status-bar/2.0.3:
+    resolution: {integrity: sha512-OfZfcnCB+q/QrcgUfgMlarzfcQqdeiOLRjiL3OccOR1o4TSDYcwgocDZGzR4s6UtuACz/f4gbTCaovUMyyTLCA==}
+    engines: {node: '>=0.10'}
+    dependencies:
+      progress-bar-formatter: 2.0.1
+    dev: false
+
+  /tftp/0.1.2:
+    resolution: {integrity: sha512-sopSHHZSH7b+dFFgUoQJMXhK4bh/4kCtCD6fc6XydQ1qoCteaD5VWOuaI0TWw2htv+Dk4/4PT0cUDbLHaBvAFQ==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+    dependencies:
+      argp: 1.0.4
+      status-bar: 2.0.3
     dev: false
 
   /ts-node/10.9.1_gbhfbbeqrol7fxixnzbkbuanxe:

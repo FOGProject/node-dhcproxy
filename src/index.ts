@@ -1,16 +1,34 @@
-const svr = require('./dhcpd/dhcpd')
-import nodeStatic from 'node-static'
+/**
+ * penguins-cuckoo
+ */
+
+const dhcpd = require('./dhcpd/dhcpd')
+const tftp = require( 'tftp')
+
+import network from './classes/network'
 import http, { IncomingMessage, ServerResponse } from 'http'
+import nodeStatic from 'node-static'
 
 
+/**
+ * Configurazione
+ */
+const n = new network()
+const me = n.address
+const subnet = n.cidr
+
+
+/**
+ * dhcp-proxy
+ */
 let options = {
-	subnet: '192.168.1.0/24',
+	subnet: subnet,
 
 	// your server running this dhcproxy
-	host: '192.168.1.17',
+	host: me,
 
 	// your TFTP server
-	tftpserver: '192.168.1.17',
+	tftpserver: me,
 
 	// TFTP boot filenames
 	bios_filename: 'lpxelinux.0',
@@ -18,14 +36,35 @@ let options = {
 	efi64_filename: 'ipxe.efi'
 
 }
+let server = new dhcpd(options)
 
-let server = new svr(options)
 
+
+/**
+ * http
+ */
 const port = 80
-const httpRoot = '/home/eggs/pxe/'
-
-var file = new (nodeStatic.Server)(httpRoot)
+const pxeRoot = '/home/eggs/pxe/'
+var file = new (nodeStatic.Server)(pxeRoot)
 http.createServer(function (req: IncomingMessage, res: ServerResponse) {
 	file.serve(req, res)
 }).listen(port)
 
+
+/**
+ * 
+ */
+
+let tftpOptions = {
+	"host": me,
+	"port": 69,
+	"root": '/home/eggs/pxe',
+	"denyPUT": false
+}
+let tftpServer = tftp.createServer(tftpOptions)
+tftpServer.on("request", function (req: any) {
+	console.log('================================================')
+	console.log(req)
+	console.log('================================================')
+})
+tftpServer.listen()
