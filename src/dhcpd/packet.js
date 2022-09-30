@@ -1,17 +1,172 @@
-
 var utils = require('./utils');
-
 var get_convert = require('./packet/converters');
 
-function Packet(array) {
-  var key;
-  for (key in array) {
-    if(array.hasOwnProperty(key)){
-      this[key] = array[key];
+/**
+ * 
+ */
+class Packet {
+  constructor(array) {
+    var key;
+    for (key in array) {
+      if (array.hasOwnProperty(key)) {
+        this[key] = array[key];
+      }
     }
+  }
+
+  /**
+   * 
+   * @returns 
+   */
+  getRequestedIPAddress() {
+    return this.options[50];
+  }
+
+  /**
+   * 
+   * @param {*} op 
+   * @returns 
+   */
+  op(op) {
+    this.op = op;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} htype 
+   * @returns 
+   */
+  htype(htype) {
+    this.htype = htype;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} hlen 
+   * @returns 
+   */
+  hlen(hlen) {
+    this.hlen = hlen;
+    return this;
+  }
+  hops(hops) {
+    this.hops = hops;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} xid 
+   * @returns 
+   */
+  xid(xid) {
+    this.xid = xid;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} secs 
+   * @returns 
+   */
+  secs(secs) {
+    this.secs = secs;
+    return this;
+  }
+  flags(flags) {
+    this.flags = flags;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} ciaddr 
+   * @returns 
+   */
+  ciaddr(ciaddr) {
+    this.ciaddr = ciaddr !== null ? ciaddr : '0.0.0.0';
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} yiaddr 
+   * @returns 
+   */
+  yiaddr(yiaddr) {
+    this.yiaddr = yiaddr !== null ? yiaddr : '0.0.0.0';
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} siaddr 
+   * @returns 
+   */
+  siaddr(siaddr) {
+    this.siaddr = siaddr !== null ? siaddr : '0.0.0.0';
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} giaddr 
+   * @returns 
+   */
+  giaddr(giaddr) {
+    this.giaddr = giaddr !== null ? giaddr : '0.0.0.0';
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} chaddr 
+   * @returns 
+   */
+  chaddr(chaddr) {
+    this.chaddr = chaddr;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} sname 
+   * @returns 
+   */
+  sname(sname) {
+    this.sname = sname;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} fname 
+   * @returns 
+   */
+  fname(fname) {
+    this.fname = fname;
+    return this;
+  }
+
+  /**
+   * 
+   * @param {*} options 
+   * @returns 
+   */
+  options(options) {
+    this.options = options;
+    return this;
   }
 }
 
+
+/**
+ * 
+ * @param {*} str 
+ * @returns 
+ */
 function stripBinNull(str) {
   var pos;
   pos = str.indexOf('\u0000');
@@ -107,84 +262,21 @@ Packet.fromBuffer = fromBuffer;
 
 Packet.prototype.toBuffer = toBuffer;
 
-Packet.prototype.getRequestedIPAddress = function() {
-  return this.options[50];
-};
 
-Packet.prototype.op = function(op) {
-  this.op = op;
-  return this;
-};
 
-Packet.prototype.htype = function(htype) {
-  this.htype = htype;
-  return this;
-};
 
-Packet.prototype.hlen = function(hlen) {
-  this.hlen = hlen;
-  return this;
-};
 
-Packet.prototype.hops = function(hops) {
-  this.hops = hops;
-  return this;
-};
 
-Packet.prototype.xid = function(xid) {
-  this.xid = xid;
-  return this;
-};
 
-Packet.prototype.secs = function(secs) {
-  this.secs = secs;
-  return this;
-};
 
-Packet.prototype.flags = function(flags) {
-  this.flags = flags;
-  return this;
-};
 
-Packet.prototype.ciaddr = function(ciaddr) {
-  this.ciaddr = ciaddr !== null ? ciaddr : '0.0.0.0';
-  return this;
-};
 
-Packet.prototype.yiaddr = function(yiaddr) {
-  this.yiaddr = yiaddr !== null ? yiaddr : '0.0.0.0';
-  return this;
-};
 
-Packet.prototype.siaddr = function(siaddr) {
-  this.siaddr = siaddr !== null ? siaddr : '0.0.0.0';
-  return this;
-};
 
-Packet.prototype.giaddr = function(giaddr) {
-  this.giaddr = giaddr !== null ? giaddr : '0.0.0.0';
-  return this;
-};
 
-Packet.prototype.chaddr = function(chaddr) {
-  this.chaddr = chaddr;
-  return this;
-};
 
-Packet.prototype.sname = function(sname) {
-  this.sname = sname;
-  return this;
-};
 
-Packet.prototype.fname = function(fname) {
-  this.fname = fname;
-  return this;
-};
 
-Packet.prototype.options = function(options) {
-  this.options = options;
-  return this;
-};
 
 module.exports = {
   Packet: Packet,
