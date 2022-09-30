@@ -1,3 +1,6 @@
+/**
+ * converters.js
+ */
 var utils = require('../utils');
 var sprintf = require('../sprintf');
 
