@@ -13,26 +13,24 @@ import nodeStatic from 'node-static'
  * Configurazione
  */
 const n = new network()
-const me = n.address
-const subnet = n.cidr
-
+let pxeRoot = '/home/eggs/pxe/'
 
 /**
  * dhcp-proxy
  */
 let options = {
-	subnet: subnet,
+	subnet: n.cidr,
 
 	// your server running this dhcproxy
-	host: me,
+	host: n.address,
 
 	// your TFTP server
-	tftpserver: me,
+	tftpserver: n.address,
 
 	// TFTP boot filenames
-	bios_filename: 'lpxelinux.0'
-	// efi32_filename: 'ipxe32.efi',
-	// efi64_filename: 'ipxe.efi'
+	bios_filename: 'lpxelinux.0',
+	efi32_filename: 'ipxe32.efi',
+	efi64_filename: 'ipxe.efi'
 
 }
 let server = new dhcpd(options)
@@ -43,7 +41,7 @@ let server = new dhcpd(options)
  * http
  */
 const port = 80
-const pxeRoot = '/home/eggs/pxe/'
+
 var file = new (nodeStatic.Server)(pxeRoot)
 http.createServer(function (req: IncomingMessage, res: ServerResponse) {
 	file.serve(req, res)
@@ -53,14 +51,14 @@ http.createServer(function (req: IncomingMessage, res: ServerResponse) {
 /**
  * 
  */
-
 let tftpOptions = {
-	"host": me,
+	"host": n.address,
 	"port": 69,
-	"root": '/home/eggs/pxe',
+	"root": pxeRoot,
 	"denyPUT": true
 }
 let tftpServer = tftp.createServer(tftpOptions)
+
 
 tftpServer.on("error", function (error :any){
 	//Errors from the main socket 
