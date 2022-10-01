@@ -1,5 +1,5 @@
 import { Netmask } from 'netmask'
-import os from 'os'
+import os = require('os');
 
 /**
  * 
